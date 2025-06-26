@@ -1,0 +1,16 @@
+[
+  {
+    "log_id": "web-server-1",
+    "file_path": "/var/log/nginx/access.log",
+    "status": "OK",
+    "message": "Analyse terminée avec succès.",
+    "error_details": ""
+  },
+  {
+    "log_id": "invalid-path",
+    "file_path": "/non/existent/log.log",
+    "status": "FAILED",
+    "message": "Fichier introuvable.",
+    "error_details": "open /non/existent/log.log: no such file or directory"
+  }
+]
