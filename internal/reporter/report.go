@@ -8,7 +8,7 @@ import (
 	"github.com/docblizzard/loganizer/internal/config"
 )
 
-func ExportResultsToJsonfile(results []config.InputTarget) error {
+func ExportResultsToJsonfile(results []config.OutputTarget) error {
 	data, err := json.MarshalIndent(results, "", "")
 	if err != nil {
 		return fmt.Errorf("Failed to marshal %s", err)

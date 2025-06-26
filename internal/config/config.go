@@ -13,6 +13,7 @@ type InputTarget struct {
 }
 
 type OutputTarget struct {
+	Id           string `json:"id"`
 	FilePath     string `json:"file_path"`
 	Status       string `json:"status"`
 	Message      string `json:"message"`

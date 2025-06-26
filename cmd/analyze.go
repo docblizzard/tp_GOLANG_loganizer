@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/docblizzard/loganizer/internal/checker"
 	"github.com/docblizzard/loganizer/internal/config"
 	"github.com/docblizzard/loganizer/internal/reporter"
 	"github.com/spf13/cobra"
@@ -35,23 +36,22 @@ var analyzeCmd = &cobra.Command{
 		}
 
 		var wg sync.WaitGroup
-		resultsChan := make(chan config.InputTarget, len(targets))
+		resultsChan := make(chan config.OutputTarget, len(targets))
 
 		wg.Add(len(targets))
 		for _, id := range targets {
 			go func(t config.InputTarget) {
 				defer wg.Done()
-				result := t
+				result := checker.ParseLog(t)
 				resultsChan <- result // Envoyer le résultat au channel
 			}(id)
 		}
 		// Cette ligne bloque l'éxecution du main() jusqu'à ce que toutes les goroutines aient appelé wd.Done()
 		wg.Wait()
 		close(resultsChan)
-		var finalReport []config.InputTarget
+		var finalReport []config.OutputTarget
 
 		for res := range resultsChan { // Récupérer tous les résultats du channel
-			// reportEntry := checker.ConvertToReportEntry(res)
 			finalReport = append(finalReport, res)
 
 			if err := reporter.ExportResultsToJsonfile(finalReport); err != nil {
